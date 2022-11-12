@@ -26,7 +26,7 @@ public class IcsCalendar {
             printWriter.println("TRANSP:TRANSPARENT");
             printWriter.println("SUMMARY:" + icsEvent.getSummary());
             printWriter.println("DTSTART;VALUE=DATE:" + icsEvent.getDtStart());
-            printWriter.println("DESCRIPTION:" + icsEvent.getDescription().replaceAll("\n", "\\\\n").replaceAll("\"", "\\\\\""));
+            printWriter.println("DESCRIPTION:" + icsEvent.getDescription() != null ? icsEvent.getDescription().replaceAll("\n", "\\\\n").replaceAll("\"", "\\\\\"") : null);
             printWriter.println("END:VEVENT");
         }
 
