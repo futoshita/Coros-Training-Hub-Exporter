@@ -1,4 +1,4 @@
-# Export Coros Training Calendar to ICS Calendar
+# Export Coros Training Calendar to ICS File
 
 ⚠️ This repository is using a **non-public API** from [COROS Training Hub](https://t.coros.com/) that could break
 anytime.
