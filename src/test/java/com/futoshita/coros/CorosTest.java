@@ -1,6 +1,7 @@
 package com.futoshita.coros;
 
-import org.junit.BeforeClass;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.FileInputStream;
@@ -12,8 +13,8 @@ public class CorosTest {
 
     private static Properties properties;
 
-    @BeforeClass
-    public static void beforeClass() {
+    @Before
+    public void before() {
         try (InputStream input = new FileInputStream("src/test/resources/authentication.properties")) {
             properties = new Properties();
             properties.load(input);
@@ -22,9 +23,19 @@ public class CorosTest {
         }
     }
 
+    @After
+    public void after() {
+        AppParameters.getInstance().reset();
+    }
+
     @Test
-    public void main_Ok() {
-        Coros.main(new String[] {"--username", properties.getProperty("username"), "--password", properties.getProperty("password"), "--startDate", "20221101", "--endDate", "20221130", "--output", "target/coros-calendar.ics"});
+    public void main_Activities() {
+        Coros.main(new String[] {"--username", properties.getProperty("username"), "--password", properties.getProperty("password"), "--startDate", "20221101", "--endDate", "20221130", "--type", "ACTIVITIES", "--output", "target/coros-activities", "--DEBUG"});
+    }
+
+    @Test
+    public void main_TrainingSchedule() {
+        Coros.main(new String[] {"--username", properties.getProperty("username"), "--password", properties.getProperty("password"), "--startDate", "20221101", "--endDate", "20221130", "--type", "TRAINING_CALENDAR", "--output", "target", "--DEBUG"});
     }
 
     @Test
@@ -34,6 +45,6 @@ public class CorosTest {
 
     @Test
     public void main_UnrecognizedOption() {
-        Coros.main(new String[] {"--help"});
+        Coros.main(new String[] {"--help", "--DEBUG"});
     }
 }

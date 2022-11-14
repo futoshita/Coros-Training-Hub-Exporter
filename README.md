@@ -7,17 +7,24 @@ anytime.
 
 - Install Java and Maven
 - Run `mvn clean package -DskipTests`
-- Run `java -cp target/coros.jar --username $COROS_USERNAME --password $COROS_PASSWORD --startDate $YYYYMMDD --endDate $YYYYMMDD --output ICS_FILE_PATH`
+- Run `java -cp target/coros.jar --username $COROS_USERNAME --password $COROS_PASSWORD --startDate $YYYYMMDD --endDate $YYYYMMDD --type $EXPORT_TYPE --output ICS_FILE_DIRECTORY`
+
+Values for `EXPORT_TYPE`:
+- `TRAINING_CALENDAR`
+- `ACTIVITIES`
+
+If `EXPORT_TYPE`=`TRAINING_CALENDAR`, a `.ics` file is generated in the output directory with name `coros-training-calendar.ics`.  
+If `EXPORT_TYPE`=`ACTIVITIES`, `.fit` files are downloaded and stored in the output directory with name `$date_$activityId.fit`.
 
 For example:
 
 ```shell
-java -jar coros.jar --username foo@bar.com --password baz --startDate 20220101 --endDate 20220131 --output ./coros-training-calendar.ics
+java -jar coros.jar --username foo@bar.com --password baz --startDate 20220101 --endDate 20220131 --type TRAINING_CALENDAR --output ~/Documents
 ```
 
 ## Running tests
 
-- Create the file `src/test/resources/authentication.properties` with properties username and password of the Coros account
+- Create the file `src/test/resources/authentication.properties` with properties `username` and `password` of the Coros account
 
 ## Licence
 

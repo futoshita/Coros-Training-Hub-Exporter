@@ -19,10 +19,20 @@ public class IcsCalendarTest {
         ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         CorosResponse cr = mapper.readValue(new File("src/test/resources/coros-training-schedule.json"), CorosResponse.class);
 
-        CorosTrainingSchedule cts = new CorosTrainingSchedule();
-        List<IcsEvent> icsEvents = cts.toIcsEvents(cr);
+        List<IcsEvent> icsEvents = CorosTrainingSchedule.toIcsEvents(cr);
 
         Assert.assertEquals("s1e1", icsEvents.get(0).getSummary());
+    }
+
+    @Test
+    public void export_WithoutPlan() throws IOException {
+        ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        CorosResponse cr = mapper.readValue(new File("src/test/resources/coros-training-schedule-without-plan.json"), CorosResponse.class);
+
+        List<IcsEvent> icsEvents = CorosTrainingSchedule.toIcsEvents(cr);
+
+        Assert.assertEquals("test séance hors plan", icsEvents.get(0).getSummary());
+        Assert.assertEquals(20221113, icsEvents.get(0).getDtStart().intValue());
     }
 
 }

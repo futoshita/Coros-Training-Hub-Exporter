@@ -1,8 +1,10 @@
 package com.futoshita.coros;
 
 import com.futoshita.coros.api.CorosLogin;
+import com.futoshita.util.HashUtil;
+import org.junit.After;
 import org.junit.Assert;
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.FileInputStream;
@@ -14,31 +16,34 @@ import java.util.Properties;
 
 public class CorosLoginTest {
 
-    private static Properties properties;
-
-    @BeforeClass
-    public static void beforeClass() {
+    @Before
+    public void before() {
         try (InputStream input = new FileInputStream("src/test/resources/authentication.properties")) {
-            properties = new Properties();
+            Properties properties = new Properties();
             properties.load(input);
-        } catch (IOException e) {
+
+            AppParameters.getInstance().setUsername(properties.getProperty("username"));
+            AppParameters.getInstance().setPassword(HashUtil.hashPassword(properties.getProperty("password")));
+            AppParameters.getInstance().setOutputDirectory("target");
+            AppParameters.getInstance().setDebug(true);
+        } catch (IOException | NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
     }
 
+    @After
+    public void after() {
+        AppParameters.getInstance().reset();
+    }
+
     @Test
-    public void authenticate() {
-        CorosLogin cl = new CorosLogin();
+    public void login() {
         try {
-            String accessToken = cl.authenticate(properties.getProperty("username"), cl.hashPassword(properties.getProperty("password")));
-            Assert.assertNotNull(accessToken);
-        } catch (URISyntaxException | NoSuchAlgorithmException | IOException | InterruptedException e) {
+            CorosLogin.login();
+        } catch (URISyntaxException | IOException | InterruptedException e) {
             e.printStackTrace();
         }
-    }
 
-    @Test
-    public void hashPassword() throws NoSuchAlgorithmException {
-        Assert.assertEquals("3858f62230ac3c915f300c664312c63f", new CorosLogin().hashPassword("foobar"));
+        Assert.assertNotNull(AppParameters.getInstance().getAccessToken());
     }
 }
