@@ -1,4 +1,4 @@
-# Export Coros Training Calendar to ICS File
+# Coros Training Hub Exporter
 
 ⚠️ This repository is using a **non-public API** from [COROS Training Hub](https://t.coros.com/) that could break
 anytime.
@@ -7,7 +7,7 @@ anytime.
 
 - Install Java and Maven
 - Run `mvn clean package -DskipTests`
-- Run `java -cp target/coros.jar --username $COROS_USERNAME --password $COROS_PASSWORD --startDate $YYYYMMDD --endDate $YYYYMMDD --type $EXPORT_TYPE --output ICS_FILE_DIRECTORY`
+- Run `java -cp target/coros.jar --username $COROS_USERNAME --password $COROS_PASSWORD --startDate $YYYYMMDD --endDate $YYYYMMDD --type $EXPORT_TYPE --output $OUTPUT_DIRECTORY`
 
 Values for `EXPORT_TYPE`:
 - `TRAINING_CALENDAR`
