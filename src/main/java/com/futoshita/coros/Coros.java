@@ -53,29 +53,37 @@ public class Coros {
                 System.out.println("Getting activities list...");
 
                 CorosResponse corosResponse = CorosActivities.getActivities(1);
-                for (CorosActivity activity : corosResponse.getData().getDataList()) {
-                    activities.add(activity);
-                }
-
-                for (int i = 2; i <= corosResponse.getData().getTotalPage(); i++) {
-                    corosResponse = CorosActivities.getActivities(i);
+                if (corosResponse.getData() != null && corosResponse.getData().getDataList() != null) {
                     for (CorosActivity activity : corosResponse.getData().getDataList()) {
                         activities.add(activity);
                     }
                 }
 
-                System.out.println("Downloading " + activities.size() + " .fit files");
-
-                ProgressBar bar = new ProgressBar();
-                bar.update(0, activities.size());
-
-                Files.createDirectories(Paths.get(AppParameters.getInstance().getOutputDirectory()));
-                for (int i = 0; i < activities.size(); i++) {
-                    CorosActivities.downloadActivity(activities.get(i).getDate(), activities.get(i).getLabelId(), activities.get(i).getSportType());
-                    bar.update(i, activities.size());
+                if (corosResponse.getData() != null && corosResponse.getData().getTotalPage() != null) {
+                    for (int i = 2; i <= corosResponse.getData().getTotalPage(); i++) {
+                        corosResponse = CorosActivities.getActivities(i);
+                        if (corosResponse.getData() != null && corosResponse.getData().getDataList() != null) {
+                            for (CorosActivity activity : corosResponse.getData().getDataList()) {
+                                activities.add(activity);
+                            }
+                        }
+                    }
                 }
 
-                System.out.println("Download Completed.");
+                System.out.println("Downloading " + activities.size() + " .fit files");
+
+                if (!activities.isEmpty()) {
+                    ProgressBar bar = new ProgressBar();
+                    bar.update(0, activities.size());
+
+                    Files.createDirectories(Paths.get(AppParameters.getInstance().getOutputDirectory()));
+                    for (int i = 0; i < activities.size(); i++) {
+                        CorosActivities.downloadActivity(activities.get(i).getDate(), activities.get(i).getLabelId(), activities.get(i).getSportType());
+                        bar.update(i, activities.size());
+                    }
+
+                    System.out.println("Download Completed.");
+                }
             }
         } catch (ParseException e) {
             System.out.println("[ERROR] parameters parsing failed. " + e.getMessage());
