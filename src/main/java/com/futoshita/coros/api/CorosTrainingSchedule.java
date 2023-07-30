@@ -25,7 +25,7 @@ import java.util.Map;
 
 public class CorosTrainingSchedule {
 
-    private static final String GET_TRAINING_SCHEDULE_URI = "https://teamapi.coros.com/training/schedule/query";
+    private static final String GET_TRAINING_SCHEDULE_URI = "https://teameuapi.coros.com/training/schedule/query";
 
     public static CorosResponse getTrainingSchedule() throws IOException, URISyntaxException, InterruptedException {
         String parameters = "?startDate=" + AppParameters.getInstance().getStartDate() + "&endDate=" + AppParameters.getInstance().getEndDate();

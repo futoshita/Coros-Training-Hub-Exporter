@@ -18,7 +18,7 @@ import java.nio.file.Paths;
 
 public class CorosLogin {
 
-    private static final String LOGIN_URL = "https://teamapi.coros.com/account/login";
+    private static final String LOGIN_URL = "https://teameuapi.coros.com/account/login";
 
     public static void login() throws URISyntaxException, IOException, InterruptedException {
         HttpRequest request = HttpRequest.newBuilder()

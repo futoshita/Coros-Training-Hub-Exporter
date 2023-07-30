@@ -22,8 +22,8 @@ import java.nio.file.Paths;
 
 public class CorosActivities {
 
-    private static final String GET_ACTIVITIES_URI = "https://teamapi.coros.com/activity/query";
-    private static final String DOWNLOAD_ACTIVITY_URI = "https://teamapi.coros.com/activity/detail/download";
+    private static final String GET_ACTIVITIES_URI = "https://teameuapi.coros.com/activity/query";
+    private static final String DOWNLOAD_ACTIVITY_URI = "https://teameuapi.coros.com/activity/detail/download";
 
     public static CorosResponse getActivities(int pageNumber) throws URISyntaxException, IOException, InterruptedException {
         String parameters = "?size=30&pageNumber=" + pageNumber + "&startDay=" + AppParameters.getInstance().getStartDate() + "&endDay=" + AppParameters.getInstance().getEndDate() + "&modeList=";
